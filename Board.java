@@ -1,12 +1,7 @@
 public class Board {
 	private int size;
 	private int[][] board;
-	
-	public static void main(String[] args)
-	{
-		System.out.println("jasper");
-	}
-	
+
 	public Board(int s)
 	{
 		size = s;
@@ -92,4 +87,6 @@ public class Board {
 		}
 		return -1;
 	}
+	
+	
 }
