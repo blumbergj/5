@@ -19,6 +19,7 @@ public class Game extends JComponent implements MouseListener{
 	 private static JButton[][] jbs;
 	 static JFrame screen;
 	 private static int turn = 0;
+	 static int[] wins = new int[2];
 	 static Board b;
 	
 	public static void main(String[] args) 
@@ -32,11 +33,21 @@ public class Game extends JComponent implements MouseListener{
         {
         	System.exit(0);
         }
-		
-        String sizeStr = JOptionPane.showInputDialog("What size would you like the board? (15-50)");
+        
+		try
+		{
+        String sizeStr = JOptionPane.showInputDialog(null, "What size would you like the board? (15-50)", "5", JOptionPane.QUESTION_MESSAGE);
         size = Integer.parseInt(sizeStr);
+		}
+		catch(Exception e)
+		{
+			Object[] ops2 = {"15", "30", "45"};
+
+	        size = (JOptionPane.showOptionDialog(null, "Size needs to be a number! Pick one?", "5", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+	                null, ops2, null) + 1) * 15;
+		}
 		
-		screen = new JFrame();
+		screen = new JFrame("5");
         screen.setLayout(null);
         Game b = new Game(size);
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,11 +98,11 @@ public class Game extends JComponent implements MouseListener{
 		
 		if(b.gameWon() != -1)
 		{
-			 Object[] ops1 = {"Play!", "Exit"};
-			 
-			 String[] teams = {"X", "O"};
+			wins[b.gameWon() - 1]++;
+			Object[] ops1 = {"Play!", "Exit"};
+			String[] teams = {"X", "O"};
 
-		        int play = JOptionPane.showOptionDialog(null, teams[b.gameWon() - 1] + "'s won!\nWould you like to play again?", "5", 
+		        int play = JOptionPane.showOptionDialog(null, teams[b.gameWon() - 1] + "'s won!\nX's: " + wins[0] + "\tO's: " + wins[1] + "\nWould you like to play again?", "5", 
 		        			JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 		                null, ops1, null);
 		        
