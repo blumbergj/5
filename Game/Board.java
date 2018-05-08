@@ -1,3 +1,5 @@
+package Game;
+
 public class Board {
 	private int size;
 	private int[][] board;
@@ -28,6 +30,11 @@ public class Board {
 		}
 	}
 	
+	public int get(int i, int j)
+	{
+		return board[i][j];
+	}
+	
 	public void mark(int row, int col, int id)
 	{
 		board[row][col] = id;
@@ -51,7 +58,7 @@ public class Board {
 			for(int c = 0; c < size; c++)
 			{
 				int id = board[r][c];
-				if((id != 0) && !(c < 4) && !(r > size - 4) &&
+				if((id != 0) && !(c < 5) && !(r > size - 5) &&
 						board[r+1][c-1] == id &&
 						board[r+2][c-2] == id &&
 						board[r+3][c-3] == id &&
@@ -59,7 +66,7 @@ public class Board {
 				{
 					return id;
 				}
-				if(id != 0 && !(c > size - 4) && !(r > size - 4) &&
+				if(id != 0 && !(c > size - 5) && !(r > size - 5) &&
 						board[r+1][c+1] == id &&
 						board[r+2][c+2] == id &&
 						board[r+3][c+3] == id &&
@@ -67,7 +74,7 @@ public class Board {
 				{
 					return id;
 				}
-				if(id != 0 && !(r > size - 4) &&
+				if(id != 0 && !(r > size - 5) &&
 						board[r+1][c] == id &&
 						board[r+2][c] == id &&
 						board[r+3][c] == id &&
@@ -75,7 +82,7 @@ public class Board {
 				{
 					return id;
 				}
-				if(id != 0 && !(c > size - 4) &&
+				if(id != 0 && !(c > size - 5) &&
 						board[r][c+1] == id &&
 						board[r][c+2] == id &&
 						board[r][c+3] == id &&
