@@ -55,7 +55,7 @@ public class Game extends JComponent implements MouseListener{
 			Object[] ops2 = {"15", "30", "45"};
 
 	        size = (JOptionPane.showOptionDialog(null, "Size needs to be a number! Pick one?", "5", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-	                null, ops2, null) + 1) * 15;
+	                use, ops2, null) + 1) * 15;
 		}
 		
 		screen = new JFrame("5");
