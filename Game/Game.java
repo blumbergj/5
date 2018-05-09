@@ -186,8 +186,10 @@ public class Game extends JComponent implements MouseListener{
 		 
 		 	if(e.getSource() == undo)
 		 	{
-		 		
+		 		if(!moves.isEmpty())
+		 		{
 		 		ArrayList<Integer> last = moves.pop();
+		 		
 		 		 for(int i = 0; i < size; i++)
 			        {
 			            for(int j = 0; j < size; j++)
@@ -202,6 +204,7 @@ public class Game extends JComponent implements MouseListener{
 			            	
 			            }
 			        }
+		 		}
 		 	}
 		 
 	        for(int i = 0; i < size; i++)
@@ -244,6 +247,8 @@ public class Game extends JComponent implements MouseListener{
 	     */
 	    public void mouseReleased(MouseEvent e)
 	    {
+	    	if(!moves.isEmpty())
+	    	{
 	    	ArrayList<Integer> last = moves.peek();
 	    	
 	    	for(int i = 0; i < size; i++)
@@ -276,6 +281,7 @@ public class Game extends JComponent implements MouseListener{
 	    			}
 	    		}
 	    	}
+	    }
 	    }
 
 	    /**
