@@ -15,6 +15,8 @@ public class Game extends JComponent implements MouseListener{
 	 static BufferedImage blankTile;
 	 static BufferedImage tileX;
 	 static BufferedImage tileO;
+	 static BufferedImage redtileX;
+	 static BufferedImage redtileO;
 	 private static int size;
 	 private static JButton[][] jbs;
 	 private static JButton undo;
@@ -72,6 +74,8 @@ public class Game extends JComponent implements MouseListener{
 			blankTile = ImageIO.read(new File("Tiles/blankTile.jpg"));
 			tileX = ImageIO.read(new File("Tiles/x.jpg"));
 			tileO = ImageIO.read(new File("Tiles/o.jpg"));
+			redtileX = ImageIO.read(new File("Tiles/redx.jpg"));
+			redtileO = ImageIO.read(new File("Tiles/redo.jpg"));
 		}
 		catch(Exception e)
 		{
@@ -106,7 +110,6 @@ public class Game extends JComponent implements MouseListener{
 	
 	public void checkWin()
 	{
-		turn++;
 		String[] teams = {"X", "O"};
         
 		if(b.gameWon() != -1)
@@ -126,10 +129,7 @@ public class Game extends JComponent implements MouseListener{
 		        {
 		        	System.exit(0);
 		        }
-		}
-		
-		System.out.println(moves.peek());
-		
+		}	
 	}
 	
 	public void reset()
@@ -189,12 +189,14 @@ public class Game extends JComponent implements MouseListener{
 	                    {
 	                    	jbs[i][j].setIcon(new ImageIcon(tileX));
 	                    	b.mark(i, j, 1);
+	                    	turn++;
 	                    	checkWin();
 	                    }
 	                    else
 	                    {
 	                    	jbs[i][j].setIcon(new ImageIcon(tileO));
 	                    	b.mark(i, j, 2);
+	                    	turn++;
 	                    	checkWin();
 	                    }
 	                }
@@ -207,7 +209,38 @@ public class Game extends JComponent implements MouseListener{
 	     */
 	    public void mouseReleased(MouseEvent e)
 	    {
-
+	    	ArrayList<Integer> last = moves.peek();
+	    	
+	    	for(int i = 0; i < size; i++)
+	    	{
+	    		for(int j = 0; j < size; j++)
+	    		{
+	    			if(last.get(0) == i && last.get(1) == j)
+	    			{
+	    				 if((turn - 1) % 2 == 0)
+		                    {
+		                    	jbs[i][j].setIcon(new ImageIcon(redtileX));
+		                    	checkWin();
+		                    }
+		                    else
+		                    {
+		                    	jbs[i][j].setIcon(new ImageIcon(redtileO));
+		                    	checkWin();
+		                    }
+	    			}
+	    			else if(b.get(i, j) != 0)
+	    			{
+	    				if(b.get(i, j) == 1)
+	                    {
+	                    	jbs[i][j].setIcon(new ImageIcon(tileX));
+	                    }
+	                    else if(b.get(i, j) == 2)
+	                    {
+	                    	jbs[i][j].setIcon(new ImageIcon(tileO));
+	                    }
+	    			}
+	    		}
+	    	}
 	    }
 
 	    /**
