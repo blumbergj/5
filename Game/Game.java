@@ -25,7 +25,7 @@ public class Game extends JComponent implements MouseListener{
 	 private static JButton undo;
 	 static JFrame screen;
 	 private static int turn = 0;
-	 static int[] wins = new int[2];
+	 static int[] wins = new int[3];
 	 private static Stack<ArrayList<Integer>> moves;
 	 static Board b;
 	
@@ -119,12 +119,29 @@ public class Game extends JComponent implements MouseListener{
 	
 	public void checkWin()
 	{
+		Object[] ops1 = {"Play!", "Exit"};
 		String[] teams = {"X", "O"};
         
-		if(b.gameWon() != -1)
+		if(b.gameWon() == 0)
+        {
+			wins[2]++;
+			
+			int play = JOptionPane.showOptionDialog(null, "DRAW: No one won!\nX's: " + wins[0] + "\t\t\tO's: " + wins[1] + "\nWould you like to play again?", "5", 
+        			JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, ops1, null);
+        
+        if(play == 0)
+        {
+        	reset();
+        }
+        else
+        {
+        	System.exit(0);
+        }
+        }
+		else if(b.gameWon() != -1)
 		{
 			wins[b.gameWon() - 1]++;
-			Object[] ops1 = {"Play!", "Exit"};
 
 		        int play = JOptionPane.showOptionDialog(null, teams[b.gameWon() - 1] + "'s won!\nX's: " + wins[0] + "\t\t\tO's: " + wins[1] + "\nWould you like to play again?", "5", 
 		        			JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
@@ -138,9 +155,9 @@ public class Game extends JComponent implements MouseListener{
 		        {
 		        	System.exit(0);
 		        }
-		}	
+		}
 	}
-	
+
 	public void reset()
 	{
 		b.clear();
@@ -153,6 +170,7 @@ public class Game extends JComponent implements MouseListener{
 		}
 		
 		turn = totalGames % 2;
+		
 		for(int i = 0; i < size; i++)
         {
             for(int j = 0; j < size; j++)

@@ -58,6 +58,11 @@ public class Board {
 	
 	public int gameWon()
 	{
+		if(done())
+		{
+			return 0;
+		}
+		
 		for(int r = 0; r < size; r++)
 		{
 			for(int c = 0; c < size; c++)
@@ -98,6 +103,22 @@ public class Board {
 			}
 		}
 		return -1;
+	}
+	
+	public boolean done()
+	{
+		for(int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < size; j++)
+            {
+            	if(board[i][j] == 0)
+            	{
+            		return false;
+            	}
+            }
+        }
+	
+	return true;
 	}
 	
 	
