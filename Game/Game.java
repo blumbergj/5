@@ -17,9 +17,11 @@ public class Game extends JComponent implements MouseListener{
 	 static BufferedImage tileO;
 	 private static int size;
 	 private static JButton[][] jbs;
+	 private static JButton undo;
 	 static JFrame screen;
 	 private static int turn = 0;
 	 static int[] wins = new int[2];
+	 private static Stack<ArrayList<Integer>> moves;
 	 static Board b;
 	
 	public static void main(String[] args) 
@@ -51,18 +53,20 @@ public class Game extends JComponent implements MouseListener{
         screen.setLayout(null);
         Game b = new Game(size);
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        screen.setSize(size*20, size*20);
+        screen.setSize(size*20, size*20 + 40);
         screen.setLocationRelativeTo(null);
         screen.setVisible(true);
         screen.getContentPane().setBackground(Color.WHITE);
         screen.setResizable(false);
         screen.add(b);
+        		
 	}
 	
 	public Game(int s)
 	{
 		size = s;
 		b = new Board(s);
+		moves = new Stack<ArrayList<Integer>>();
 		try
 		{
 			blankTile = ImageIO.read(new File("Tiles/blankTile.jpg"));
@@ -74,13 +78,21 @@ public class Game extends JComponent implements MouseListener{
 			System.out.println("nope");
 		}
 		
+		  	undo = new JButton();
+	        undo.setBounds(0, 0, size * 20, 20);
+	        undo.setOpaque(false);
+	        undo.setContentAreaFilled(false);
+	        undo.addMouseListener(this);
+	        undo.setText("UNDO");
+	        screen.add(undo);
+		
 		jbs = new JButton[size][size];
         for(int i = 0; i < size; i++)
         {
             for(int j = 0; j < size; j++)
             {
                 JButton jb = new JButton();
-                jb.setBounds(20*j, 20*i, 20, 20);
+                jb.setBounds(20*(j), 20*(i + 1), 20, 20);
                 jb.setOpaque(false);
                 jb.setContentAreaFilled(false);
                 jb.setBorderPainted(true);
@@ -95,12 +107,12 @@ public class Game extends JComponent implements MouseListener{
 	public void checkWin()
 	{
 		turn++;
-		
+		String[] teams = {"X", "O"};
+        
 		if(b.gameWon() != -1)
 		{
 			wins[b.gameWon() - 1]++;
 			Object[] ops1 = {"Play!", "Exit"};
-			String[] teams = {"X", "O"};
 
 		        int play = JOptionPane.showOptionDialog(null, teams[b.gameWon() - 1] + "'s won!\nX's: " + wins[0] + "\t\t\tO's: " + wins[1] + "\nWould you like to play again?", "5", 
 		        			JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
@@ -115,6 +127,9 @@ public class Game extends JComponent implements MouseListener{
 		        	System.exit(0);
 		        }
 		}
+		
+		System.out.println(moves.peek());
+		
 	}
 	
 	public void reset()
@@ -133,6 +148,27 @@ public class Game extends JComponent implements MouseListener{
 	 @Override
 	    public void mousePressed(MouseEvent e)
 	    {
+		 
+		 	if(e.getSource() == undo)
+		 	{
+		 		
+		 		ArrayList<Integer> last = moves.pop();
+		 		 for(int i = 0; i < size; i++)
+			        {
+			            for(int j = 0; j < size; j++)
+			            {
+			            	
+			            	if(last.get(0) == i && last.get(1) == j)
+			            	{
+			            		jbs[i][j].setIcon(new ImageIcon(blankTile));
+			            		b.unmark(i, j);
+			            		turn--;
+			            	}
+			            	
+			            }
+			        }
+		 	}
+		 
 	        for(int i = 0; i < size; i++)
 	        {
 	            for(int j = 0; j < size; j++)
@@ -142,6 +178,11 @@ public class Game extends JComponent implements MouseListener{
 	                		&& b.get(i, j) == 0)
 	                {
 
+	                	 ArrayList<Integer> add = new ArrayList<Integer>();
+	                    	add.add(i);
+	                    	add.add(j);
+	                    	moves.add(add);
+	                	
 	                	//x is 1, o is 2
 	                	
 	                    if(turn % 2 == 0)

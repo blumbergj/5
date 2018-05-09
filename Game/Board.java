@@ -40,6 +40,11 @@ public class Board {
 		board[row][col] = id;
 	}
 	
+	public void unmark(int row, int col)
+	{
+		board[row][col] = 0;
+	}
+	
 	public void clear()
 	{
 		for(int r = 0; r < size; r++)
