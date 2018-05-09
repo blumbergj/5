@@ -135,6 +135,7 @@ public class Game extends JComponent implements MouseListener{
 	public void reset()
 	{
 		b.clear();
+		moves.clear();
 		turn = 0;
 		for(int i = 0; i < size; i++)
         {
