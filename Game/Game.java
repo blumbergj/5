@@ -102,7 +102,7 @@ public class Game extends JComponent implements MouseListener{
 			Object[] ops1 = {"Play!", "Exit"};
 			String[] teams = {"X", "O"};
 
-		        int play = JOptionPane.showOptionDialog(null, teams[b.gameWon() - 1] + "'s won!\nX's: " + wins[0] + "\tO's: " + wins[1] + "\nWould you like to play again?", "5", 
+		        int play = JOptionPane.showOptionDialog(null, teams[b.gameWon() - 1] + "'s won!\nX's: " + wins[0] + "\t\t\tO's: " + wins[1] + "\nWould you like to play again?", "5", 
 		        			JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 		                null, ops1, null);
 		        
