@@ -28,7 +28,9 @@ public class Game extends JComponent implements MouseListener{
 	 static int[] wins = new int[3];
 	 private static Stack<ArrayList<Integer>> moves;
 	 static Board b;
-	
+	 /**
+	     * runs crucial game methods 
+	     */
 	public static void main(String[] args) 
 	{
 		Object[] ops1 = {"Let's Play!", "Exit"};
@@ -70,7 +72,11 @@ public class Game extends JComponent implements MouseListener{
         screen.add(b);
         		
 	}
-	
+	/**
+     * Sets game board and prepares for moves
+     * @param int s size of the board
+     * 
+     */
 	public Game(int s)
 	{
 		size = s;
@@ -116,7 +122,10 @@ public class Game extends JComponent implements MouseListener{
             }
         }
 	}
-	
+	/**
+     * Also known as "Tyler's method" checks each location and extends in a maximum of four directions to verify a win.
+     * return null;
+     */
 	public void checkWin()
 	{
 		Object[] ops1 = {"Play!", "Exit"};
@@ -157,7 +166,9 @@ public class Game extends JComponent implements MouseListener{
 		        }
 		}
 	}
-
+	/**
+     * Reset board after each game win
+     */
 	public void reset()
 	{
 		b.clear();
@@ -180,7 +191,9 @@ public class Game extends JComponent implements MouseListener{
         }
 	}
 	
-	 @Override
+	/**
+     * Needed in the abstract class MouseListener
+     */
 	    public void mousePressed(MouseEvent e)
 	    {
 		 
@@ -244,6 +257,7 @@ public class Game extends JComponent implements MouseListener{
 
 	    /**
 	     * Needed in the abstract class MouseListener
+	     * Also checks for win after each placement
 	     */
 	    public void mouseReleased(MouseEvent e)
 	    {

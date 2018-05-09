@@ -3,7 +3,11 @@ package Game;
 public class Board {
 	private int size;
 	private int[][] board;
-
+	/**
+	 * Constructor
+     * @param int s size of the board
+     * return void
+     */
 	public Board(int s)
 	{
 		size = s;
@@ -16,7 +20,11 @@ public class Board {
 			}
 		}
 	}
-	
+	/**
+     * Constructor
+     * @param null
+     * Defult size 15 board initialized
+     */
 	public Board()
 	{
 		size = 15;
@@ -29,7 +37,11 @@ public class Board {
 			}
 		}
 	}
-	
+	/**
+     * @param int i row of board
+     * @param int j col of board
+     * @return int s status of this square
+     */
 	public int get(int i, int j)
 	{
 		return board[i][j];
@@ -104,7 +116,10 @@ public class Board {
 		}
 		return -1;
 	}
-	
+	/**
+     * Resets board and clears positions
+     * @return boolean t if the clear worked or not
+     */
 	public boolean done()
 	{
 		for(int i = 0; i < size; i++)
