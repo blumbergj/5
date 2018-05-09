@@ -17,6 +17,9 @@ public class Game extends JComponent implements MouseListener{
 	 static BufferedImage tileO;
 	 static BufferedImage redtileX;
 	 static BufferedImage redtileO;
+	 static BufferedImage coveredXTile;
+	 
+	 static BufferedImage coveredOTile;
 	 private static int size;
 	 private static JButton[][] jbs;
 	 private static JButton undo;
@@ -29,9 +32,11 @@ public class Game extends JComponent implements MouseListener{
 	public static void main(String[] args) 
 	{
 		Object[] ops1 = {"Let's Play!", "Exit"};
+		
+		ImageIcon use = new ImageIcon("Tiles/x.jpg");
 
         int play = JOptionPane.showOptionDialog(null, "5 in a row! Wanna play?", "5", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, ops1, null);
+                use, ops1, null);
         
         if(play == 1)
         {
@@ -40,6 +45,8 @@ public class Game extends JComponent implements MouseListener{
         
 		try
 		{
+		
+		
         String sizeStr = JOptionPane.showInputDialog(null, "What size would you like the board? (15-50)", "5", JOptionPane.QUESTION_MESSAGE);
         size = Integer.parseInt(sizeStr);
 		}
@@ -76,6 +83,8 @@ public class Game extends JComponent implements MouseListener{
 			tileO = ImageIO.read(new File("Tiles/o.jpg"));
 			redtileX = ImageIO.read(new File("Tiles/redx.jpg"));
 			redtileO = ImageIO.read(new File("Tiles/redo.jpg"));
+			coveredXTile = ImageIO.read(new File("Tiles/overTileO.jpg"));
+			coveredOTile = ImageIO.read(new File("Tiles/overTileX.jpg"));
 		}
 		catch(Exception e)
 		{
@@ -136,7 +145,14 @@ public class Game extends JComponent implements MouseListener{
 	{
 		b.clear();
 		moves.clear();
-		turn = 0;
+		
+		int totalGames = 0;
+		for(int i : wins)
+		{
+			totalGames += i;
+		}
+		
+		turn = totalGames % 2;
 		for(int i = 0; i < size; i++)
         {
             for(int j = 0; j < size; j++)
@@ -249,7 +265,16 @@ public class Game extends JComponent implements MouseListener{
 	     */
 	    public void mouseExited(MouseEvent e)
 	    {
-
+	    	for(int i = 0; i < size; i++)
+	    	{
+	    		for(int j = 0; j < size; j++)
+	    		{
+	    			if(e.getSource() == jbs[i][j] && b.get(i, j) == 0)
+	    			{
+	    				jbs[i][j].setIcon(new ImageIcon(blankTile));
+	    			}
+	    		}
+	    	}
 	    }
 
 	    /**
@@ -257,7 +282,23 @@ public class Game extends JComponent implements MouseListener{
 	     */
 	    public void mouseEntered(MouseEvent e)
 	    {
-
+	    	for(int i = 0; i < size; i++)
+	    	{
+	    		for(int j = 0; j < size; j++)
+	    		{
+	    			if(e.getSource() == jbs[i][j] && b.get(i, j) == 0)
+	    			{
+	    				if(turn % 2 == 0)
+	    				{
+	    					jbs[i][j].setIcon(new ImageIcon(coveredOTile));
+	    				}
+	    				else
+	    				{
+	    				jbs[i][j].setIcon(new ImageIcon(coveredXTile));
+	    				}
+	    			}
+	    		}
+	    	}
 	    }
 
 	    /**
